@@ -6,6 +6,11 @@ android {
     namespace 'com.wetherapp'
     compileSdk 33
 
+    buildFeatures {
+        viewBinding true
+    }
+
+
     defaultConfig {
         applicationId "com.wetherapp"
         minSdk 29
