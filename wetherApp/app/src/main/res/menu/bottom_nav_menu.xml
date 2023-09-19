@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/temp"
+        android:icon="@drawable/baseline_device_thermostat_24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="temperature" />
+    <item
+         android:id="@+id/food"
+        android:icon="@drawable/baseline_fastfood_24"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="drinks and food" />
+</menu>
