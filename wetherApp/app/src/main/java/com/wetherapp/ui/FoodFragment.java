@@ -1,4 +1,4 @@
-package com.wetherapp;
+package com.wetherapp.ui;
 
 import android.os.Bundle;
 

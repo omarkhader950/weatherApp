@@ -1,4 +1,4 @@
-package com.wetherapp;
+package com.wetherapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
