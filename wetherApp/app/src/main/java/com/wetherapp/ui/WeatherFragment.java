@@ -12,10 +12,10 @@ import com.wetherapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link WetherFragment#newInstance} factory method to
+ * Use the {@link WeatherFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WetherFragment extends Fragment {
+public class WeatherFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class WetherFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public WetherFragment() {
+    public WeatherFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class WetherFragment extends Fragment {
      * @return A new instance of fragment WetherFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static WetherFragment newInstance(String param1, String param2) {
-        WetherFragment fragment = new WetherFragment();
+    public static WeatherFragment newInstance(String param1, String param2) {
+        WeatherFragment fragment = new WeatherFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

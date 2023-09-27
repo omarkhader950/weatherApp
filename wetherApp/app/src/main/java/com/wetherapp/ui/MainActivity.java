@@ -13,11 +13,9 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.wetherapp.R;
 import com.wetherapp.databinding.ActivityMainBinding;
 
-import java.security.PrivateKey;
-
 public class MainActivity extends AppCompatActivity {
 
-    WetherFragment wetherFragment = new WetherFragment();
+    WeatherFragment weatherFragment = new WeatherFragment();
     FoodFragment foodFragment = new FoodFragment();
 
     ActivityMainBinding binding;
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private void navigateToFragmentwether() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fram_layout,  wetherFragment);
+        fragmentTransaction.replace(R.id.fram_layout, weatherFragment);
         fragmentTransaction.addToBackStack(null); // Optional: Add the transaction to the back stack
         fragmentTransaction.commit();
     }
@@ -72,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
      private void addFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fram_layout, wetherFragment);
+        fragmentTransaction.add(R.id.fram_layout, weatherFragment);
         fragmentTransaction.addToBackStack(null); // Optional: Add the transaction to the back stack
         fragmentTransaction.commit();
     }
