@@ -10,7 +10,7 @@ import com.wetherapp.Model.DandF;
 
 @Database(entities = DandF.class, version = 2)
 
-abstract class DandFDatabase extends RoomDatabase {
+public abstract class DandFDatabase extends RoomDatabase {
 
      private static DandFDatabase instance;
     public abstract DandFDao dandFDao();
