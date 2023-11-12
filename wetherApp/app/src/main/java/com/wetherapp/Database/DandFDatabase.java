@@ -8,23 +8,29 @@ import androidx.room.RoomDatabase;
 
 import com.wetherapp.Model.DandF;
 
-@Database(entities = DandF.class, version = 2)
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+@Database(entities = {DandF.class}, version = 1, exportSchema = false)
 public abstract class DandFDatabase extends RoomDatabase {
 
-     private static DandFDatabase instance;
-    public abstract DandFDao dandFDao();
+   public abstract DandFDao dandFDao();
 
-    public static synchronized DandFDatabase getInstance(Context context){
-        if (instance == null){
-            instance = Room.databaseBuilder(context.getApplicationContext(),
-                    DandFDatabase.class, "DandF_database")
-                    .fallbackToDestructiveMigration()
-                    .build();
+   private static volatile DandFDatabase INSTANCE;
+   private static final int NUMBER_OF_THREADS = 4;
+   static final ExecutorService databaseWriteExecutor =
+        Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+  public static synchronized DandFDatabase getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (DandFDatabase.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            DandFDatabase.class, "word_database")
+                            .build();
+                }
+            }
         }
-        return instance;
+        return INSTANCE;
     }
-
-
-
 }
