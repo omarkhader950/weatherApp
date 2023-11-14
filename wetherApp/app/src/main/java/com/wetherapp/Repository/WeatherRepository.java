@@ -2,13 +2,13 @@ package com.wetherapp.Repository;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import com.wetherapp.Database.DandFDao;
 import com.wetherapp.Database.DandFDatabase;
 import com.wetherapp.Model.DandF;
 
 import java.util.List;
-
-import io.reactivex.rxjava3.core.Single;
 
 public class WeatherRepository {
 
@@ -18,30 +18,35 @@ public class WeatherRepository {
 
     public WeatherRepository(Application application) {
 
-        DandFDatabase dandFDatabase = DandFDatabase.getInstance(application);
+        DandFDatabase dandFDatabase = DandFDatabase.getDatabase(application);
         dandFDao= dandFDatabase.dandFDao();
     }
 
-     void insert(DandF dandF){
 
-        dandFDao.insert(dandF);
-     }
-
-
-    void delete(DandF dandF){
-        dandFDao.delete(dandF);
-    }
-
-
+    public void insert(DandF dandF){
+        DandFDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dandFDao.insert(dandF);
+            }
+        });
+    };
 
 
+   public void delete(DandF dandF){
+        DandFDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dandFDao.delete(dandF);
+            }
+        });
+    };
 
-    Single<List<DandF>> getPosts(){
+
+
+
+   public LiveData<List<DandF>> getPosts(){
 
        return dandFDao.getPosts();
-    }
-
-
-
-
-}
+};
+};

@@ -18,7 +18,7 @@ public abstract class DandFDatabase extends RoomDatabase {
 
    private static volatile DandFDatabase INSTANCE;
    private static final int NUMBER_OF_THREADS = 4;
-   static final ExecutorService databaseWriteExecutor =
+   public static final ExecutorService databaseWriteExecutor =
         Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
   public static synchronized DandFDatabase getDatabase(final Context context) {
@@ -26,7 +26,7 @@ public abstract class DandFDatabase extends RoomDatabase {
             synchronized (DandFDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            DandFDatabase.class, "word_database")
+                            DandFDatabase.class, "DandF_database")
                             .build();
                 }
             }
