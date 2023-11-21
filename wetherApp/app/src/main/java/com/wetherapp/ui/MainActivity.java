@@ -1,77 +1,93 @@
 package com.wetherapp.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.util.Log;
+import android.widget.TextView;
 
-import com.google.android.material.navigation.NavigationBarView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.wetherapp.Model.Contact;
 import com.wetherapp.R;
-import com.wetherapp.databinding.ActivityMainBinding;
+import com.wetherapp.ViewModel.ContactViewModel;
+import com.wetherapp.adapter.RecyclerViewAdapter;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
+import java.util.Objects;
 
-    WeatherFragment weatherFragment = new WeatherFragment();
-    FoodFragment foodFragment = new FoodFragment();
+public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnContactClickListener {
 
-    ActivityMainBinding binding;
+    private static final int NEW_CONTACT_ACTIVITY_REQUEST_CODE = 1;
+    private static final String TAG = "Clicked";
+    public static final String CONTACT_ID = "contact_id";
+    private ContactViewModel contactViewModel;
+    private TextView textView;
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter recyclerViewAdapter;
+    private LiveData<List<Contact>> contactList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_main);
 
-        addFragment();
+        recyclerView = findViewById(R.id.recycler_view);
 
-
-
-        binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                if(item.getItemId() ==R.id.temp) {
-                    navigateToFragmentwether();
-                } else if (item.getItemId() ==R.id.food) {
-                    navigateToFragmentfood();
-                }
-
-                  return true ;
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
+        contactViewModel = new ViewModelProvider.AndroidViewModelFactory(MainActivity.this
+                .getApplication())
+                .create(ContactViewModel.class);
+
+        contactViewModel.getAllContacts().observe(this, contacts -> {
+
+            recyclerViewAdapter = new RecyclerViewAdapter(contacts, MainActivity.this, this);
+            recyclerView.setAdapter(recyclerViewAdapter);
 
 
-                }
+        });
 
 
 
+        FloatingActionButton fab = findViewById(R.id.add_contact_fab);
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, NewContact.class);
+            startActivityForResult(intent, NEW_CONTACT_ACTIVITY_REQUEST_CODE);
+        });
 
-            });
-        };
-
-
-    private void navigateToFragmentwether() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fram_layout, weatherFragment);
-        fragmentTransaction.addToBackStack(null); // Optional: Add the transaction to the back stack
-        fragmentTransaction.commit();
     }
-     private void navigateToFragmentfood() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fram_layout, foodFragment);
-        fragmentTransaction.addToBackStack(null); // Optional: Add the transaction to the back stack
-        fragmentTransaction.commit();
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == NEW_CONTACT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            assert data != null;
+            String name = data.getStringExtra(NewContact.NAME_REPLY);
+            String occupation = data.getStringExtra(NewContact.OCCUPATION);
+
+            assert name != null;
+            Contact contact = new Contact(name, occupation);
+
+            ContactViewModel.insert(contact);
+        }
     }
-     private void addFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fram_layout, weatherFragment);
-        fragmentTransaction.addToBackStack(null); // Optional: Add the transaction to the back stack
-        fragmentTransaction.commit();
+
+    @Override
+    public void onContactClick(int position) {
+        Contact contact = Objects.requireNonNull(contactViewModel.allContacts.getValue()).get(position);
+        Log.d(TAG, "onContactClick: " + contact.getId());
+
+        Intent intent = new Intent(MainActivity.this, NewContact.class);
+        intent.putExtra(CONTACT_ID, contact.getId());
+        startActivity(intent);
+
     }
 }

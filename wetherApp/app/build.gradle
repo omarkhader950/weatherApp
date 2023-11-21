@@ -6,9 +6,7 @@ android {
     namespace 'com.wetherapp'
     compileSdk 33
 
-    buildFeatures {
-        viewBinding true
-    }
+
 
 
     defaultConfig {
