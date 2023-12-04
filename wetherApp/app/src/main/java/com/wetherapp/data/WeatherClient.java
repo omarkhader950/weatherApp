@@ -33,6 +33,7 @@ public class WeatherClient {
     }
 
     public Observable<Model> getCityData(String q){
+
         return weatherInterface.getCityData(q ,"1e029e00cf0e82183bc01ef694b014e9" );
     }
 
