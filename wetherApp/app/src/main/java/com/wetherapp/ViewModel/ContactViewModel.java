@@ -21,6 +21,8 @@ public class ContactViewModel extends AndroidViewModel {
         super(application);
         repository = new ContactRepository(application);
         allContacts = repository.getAllData();
+
+
     }
 
     public LiveData<List<Contact>> getAllContacts() {
