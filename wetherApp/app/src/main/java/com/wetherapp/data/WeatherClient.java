@@ -1,6 +1,6 @@
 package com.wetherapp.data;
 
-import com.wetherapp.Model.Main;
+import com.wetherapp.Model.Model;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Retrofit;
@@ -28,8 +28,12 @@ public class WeatherClient {
         return INSTANCE;
     }
 
-    public Observable<Main> getData(){
+    public Observable<Model> getData(){
         return weatherInterface.getData();
+    }
+
+    public Observable<Model> getCityData(String q){
+        return weatherInterface.getCityData(q ,"1e029e00cf0e82183bc01ef694b014e9" );
     }
 
 

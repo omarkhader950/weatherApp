@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wetherapp.Model.Contact;
 import com.wetherapp.Model.Main;
+import com.wetherapp.Model.Model;
+import com.wetherapp.Model.Weather;
 import com.wetherapp.R;
 import com.wetherapp.ViewModel.ContactViewModel;
 import com.wetherapp.ViewModel.MainViewModel;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     public static final String CONTACT_ID = "contact_id";
     private ContactViewModel contactViewModel;
 
-    private TextView temp ,feelsLike , tempMin,  tempMax;
+    private TextView weather ,temp , feelslike ,humidity;
 
     private EditText editText;
 
@@ -54,9 +56,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
         recyclerView = findViewById(R.id.recycler_view);
         temp = findViewById(R.id.main_tv_temp);
-        feelsLike = findViewById(R.id.main_tv_feelsLike);
-        tempMin = findViewById(R.id.main_tv_tempMin);
-        tempMax = findViewById(R.id.main_tv_tempMax);
+        feelslike = findViewById(R.id.main_tv_feelsLike);
+        weather = findViewById(R.id.main_tv_weather);
+        humidity = findViewById(R.id.main_tv_humidity);
         editText = findViewById(R.id.main_ed_city);
         imageButton = findViewById(R.id.main_btn_serching);
         recyclerView.setHasFixedSize(true);
@@ -87,45 +89,68 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
          mainViewModel.getdata();
 
-         mainViewModel.dataMutableLiveData.observe(MainActivity.this, new Observer<Main>() {
+         mainViewModel.dataMutableLiveData.observe(MainActivity.this, new Observer<Model>() {
              @Override
-             public void onChanged(Main main) {
+             public void onChanged(Model model) {
 
+                 //Model model = model.body();
+                 Main main = model.getMain();
+                 double t = main.getTemp();
+                 double f = main.getFeelsLike();
+                 int h =main.getHumidity();
 
-                 temp.setText((double)main.getTemp()+"");
-                 feelsLike.setText((double)main.getFeelsLike()+"");
-                  tempMin.setText((double)main.getTempMin()+"");
-                  tempMax.setText((double) main.getTempMax()+"");
+                 List<Weather> weathers = model.getWeathers();
+                 String s = weathers.get(0).getMain();
 
+                 weather.setText(s+"");
 
-         imageButton.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-              // String q = editText.getText().toString();
-
-
-
-
-
+                 temp.setText(t+"");
+                 feelslike.setText(f+"");
+                 humidity.setText(h+"");
 
              }
          });
 
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String q = editText.getText().toString();
+                mainViewModel.getCitydata(q);
 
-             }
-         });
-         mainViewModel.dataCityMutableLiveData.observe(this, new Observer<Main>() {
-             @Override
-             public void onChanged(Main main) {
+                mainViewModel.dataCityMutableLiveData.observe(MainActivity.this, new Observer<Model>() {
+                    @Override
+                    public void onChanged(Model model) {
+                        Main main = model.getMain();
+                        double t = main.getTemp();
+                        double f = main.getFeelsLike();
+                        int h =main.getHumidity();
 
-                 temp.setText((int) main.getTemp());
-                 feelsLike.setText((int)main.getFeelsLike());
-                  tempMin.setText((int)main.getTempMin());
-                  tempMax.setText((int) main.getTempMax());
+                        List<Weather> weathers = model.getWeathers();
+                        String s = weathers.get(0).getMain();
+
+                        weather.setText(s+"");
+
+                        temp.setText(t+"");
+                        feelslike.setText(f+"");
+                        humidity.setText(h+"");
+                    }
+                });
+
+            }
+        });
 
 
-             }
-         });
+         //* mainViewModel.dataCityMutableLiveData.observe(this, new Observer<Main>() {
+           //  @Override
+           //  public void onChanged(Main main) {
+
+           //      temp.setText((int) main.getTemp());
+//                  tempMin.setText((int)main.getTempMin());
+            //      tempMax.setText((int) main.getTempMax());
+
+
+          //   }
+      //   });*/
 
 
 

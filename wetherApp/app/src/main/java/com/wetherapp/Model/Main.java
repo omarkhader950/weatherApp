@@ -1,18 +1,17 @@
 package com.wetherapp.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Main {
+    @SerializedName("temp")
 
+    public   double temp;
+    @SerializedName("feelsLike")
 
+    public double feelsLike;
+    @SerializedName("humidity")
 
-public double temp;
-
-
-public double feelsLike;
-
-public double tempMin;
-
-
-public double tempMax;
+    public int  humidity;
 
     public double getTemp() {
         return temp;
@@ -22,26 +21,7 @@ public double tempMax;
         return feelsLike;
     }
 
-    public double getTempMin() {
-        return tempMin;
+    public int getHumidity() {
+        return humidity;
     }
-
-    public double getTempMax() {
-        return tempMax;
-    }
-
-
-
-    public Main(double temp, double feelsLike, double tempMin, double tempMax) {
-        this.temp = temp;
-        this.feelsLike = feelsLike;
-        this.tempMin = tempMin;
-        this.tempMax = tempMax;
-    }
-
-
-
-
-
-
 }
