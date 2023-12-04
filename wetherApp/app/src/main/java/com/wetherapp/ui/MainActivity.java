@@ -3,19 +3,25 @@ package com.wetherapp.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wetherapp.Model.Contact;
+import com.wetherapp.Model.Main;
 import com.wetherapp.R;
 import com.wetherapp.ViewModel.ContactViewModel;
+import com.wetherapp.ViewModel.MainViewModel;
 import com.wetherapp.adapter.RecyclerViewAdapter;
 
 import java.util.List;
@@ -27,7 +33,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     private static final String TAG = "Clicked";
     public static final String CONTACT_ID = "contact_id";
     private ContactViewModel contactViewModel;
-    private TextView textView;
+
+    private TextView temp ,feelsLike , tempMin,  tempMax;
+
+    private EditText editText;
+
+    ImageButton  imageButton;
+
+
+
+
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     private LiveData<List<Contact>> contactList;
@@ -38,7 +53,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.recycler_view);
-
+        temp = findViewById(R.id.main_tv_temp);
+        feelsLike = findViewById(R.id.main_tv_feelsLike);
+        tempMin = findViewById(R.id.main_tv_tempMin);
+        tempMax = findViewById(R.id.main_tv_tempMax);
+        editText = findViewById(R.id.main_ed_city);
+        imageButton = findViewById(R.id.main_btn_serching);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -55,15 +75,69 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
         });
 
-
-
         FloatingActionButton fab = findViewById(R.id.add_contact_fab);
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, NewContact.class);
             startActivityForResult(intent, NEW_CONTACT_ACTIVITY_REQUEST_CODE);
         });
 
+         MainViewModel mainViewModel = new ViewModelProvider.AndroidViewModelFactory(MainActivity.this
+            .getApplication())
+            .create(MainViewModel.class);
+
+         mainViewModel.getdata();
+
+         mainViewModel.dataMutableLiveData.observe(MainActivity.this, new Observer<Main>() {
+             @Override
+             public void onChanged(Main main) {
+
+
+                 temp.setText((double)main.getTemp()+"");
+                 feelsLike.setText((double)main.getFeelsLike()+"");
+                  tempMin.setText((double)main.getTempMin()+"");
+                  tempMax.setText((double) main.getTempMax()+"");
+
+
+         imageButton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+              // String q = editText.getText().toString();
+
+
+
+
+
+
+             }
+         });
+
+
+             }
+         });
+         mainViewModel.dataCityMutableLiveData.observe(this, new Observer<Main>() {
+             @Override
+             public void onChanged(Main main) {
+
+                 temp.setText((int) main.getTemp());
+                 feelsLike.setText((int)main.getFeelsLike());
+                  tempMin.setText((int)main.getTempMin());
+                  tempMax.setText((int) main.getTempMax());
+
+
+             }
+         });
+
+
+
+
+
+
+
+
+
+
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -90,4 +164,22 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         startActivity(intent);
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
