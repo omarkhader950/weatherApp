@@ -32,13 +32,12 @@
         android:layout_height="55dp"
         android:layout_margin="8dp"
 
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="277dp"
 
-        android:layout_marginBottom="23dp"
+        android:layout_marginTop="16dp"
         android:padding="8dp"
         android:text="feelsLike"
         android:textSize="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_tv_humidity" />
@@ -78,45 +77,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_tv_weather" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="58dp"
 
-        android:layout_marginBottom="24dp"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
+    <EditText
+
+        android:id="@+id/main_ed_city"
+        android:layout_width="216dp"
+        android:layout_height="57dp"
+
+        android:layout_marginStart="16dp"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:hint="enter city name"
+        android:inputType="textPersonName"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/main_btn_serching"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_tv_humidity"
-        app:layout_constraintVertical_bias="0.45">
+        app:layout_constraintTop_toBottomOf="@+id/main_tv_feelsLike" />
 
-        <EditText
+    <ImageButton
+        android:id="@+id/main_btn_serching"
+        android:layout_width="104dp"
 
-            android:id="@+id/main_ed_city"
-            android:layout_width="wrap_content"
-            android:layout_height="54dp"
-
-            android:layout_weight="1"
-
-
-            android:hint="enter city name"
-            android:inputType="textPersonName"
-            android:textSize="24dp" />
-
-        <ImageButton
-            android:id="@+id/main_btn_serching"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:contentDescription="TODO"
-            android:src="@drawable/baseline_location_searching_24" />
-
-
-    </LinearLayout>
+        android:layout_height="52dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:contentDescription="TODO"
+        android:src="@drawable/baseline_location_searching_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/main_ed_city"
+        app:layout_constraintTop_toBottomOf="@+id/main_tv_feelsLike" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

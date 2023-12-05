@@ -31,13 +31,13 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
                         ContactDao contactDao = INSTANCE.contactDao();
                         contactDao.deleteAll();
 
-                        Contact contact = new Contact("Gauthy", "Teacher");
+                        Contact contact = new Contact("soup", "Chicken Bouillon");
                         contactDao.insert(contact);
 
-                        contact = new Contact("Bond", "Spy");
+                        contact = new Contact("fish", "Fried and grilled fish");
                         contactDao.insert(contact);
 
-                        contact = new Contact("Bruce", "Fighter");
+                        contact = new Contact("Hot drink", "Coffee or tea");
                         contactDao.insert(contact);
 
 

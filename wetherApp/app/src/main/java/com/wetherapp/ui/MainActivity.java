@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     public static final String CONTACT_ID = "contact_id";
     private ContactViewModel contactViewModel;
 
-    private TextView weather ,temp , feelslike ,humidity;
+    private TextView weather ,temp , feelsLike ,humidity;
 
     private EditText editText;
 
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
         recyclerView = findViewById(R.id.recycler_view);
         temp = findViewById(R.id.main_tv_temp);
-        feelslike = findViewById(R.id.main_tv_feelsLike);
+        feelsLike = findViewById(R.id.main_tv_feelsLike);
         weather = findViewById(R.id.main_tv_weather);
         humidity = findViewById(R.id.main_tv_humidity);
         editText = findViewById(R.id.main_ed_city);
@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
              @Override
              public void onChanged(Model model) {
 
-                 //Model model = model.body();
                  Main main = model.getMain();
                  double t = main.getTemp();
                  double f = main.getFeelsLike();
@@ -102,11 +101,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
                  List<Weather> weathers = model.getWeathers();
                  String s = weathers.get(0).getMain();
 
-                 weather.setText(s+"");
+                 weather.setText("Weather : "+s);
 
-                 temp.setText(t+"");
-                 feelslike.setText(f+"");
-                 humidity.setText(h+"");
+                 temp.setText("temp : "+t);
+                 feelsLike.setText("feelsLike : "+f);
+                 humidity.setText("humidity : "+h);
 
              }
          });
@@ -115,7 +114,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
             @Override
             public void onClick(View view) {
                 String q = editText.getText().toString();
+                editText.requestFocus();
                 mainViewModel.getCitydata(q);
+
 
                 mainViewModel.dataCityMutableLiveData.observe(MainActivity.this, new Observer<Model>() {
                     @Override
@@ -128,11 +129,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
                         List<Weather> weathers = model.getWeathers();
                         String s = weathers.get(0).getMain();
 
-                        weather.setText(s+"");
+                        weather.setText("Weather : "+s);
 
-                        temp.setText(t+"");
-                        feelslike.setText(f+"");
-                        humidity.setText(h+"");
+                        temp.setText("temp : "+t);
+                        feelsLike.setText("feelsLike : "+f);
+                        humidity.setText("humidity : "+h);
                     }
                 });
 
@@ -140,17 +141,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         });
 
 
-         //* mainViewModel.dataCityMutableLiveData.observe(this, new Observer<Main>() {
-           //  @Override
-           //  public void onChanged(Main main) {
 
-           //      temp.setText((int) main.getTemp());
-//                  tempMin.setText((int)main.getTempMin());
-            //      tempMax.setText((int) main.getTempMax());
-
-
-          //   }
-      //   });*/
 
 
 
